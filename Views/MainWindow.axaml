@@ -47,7 +47,7 @@
 					<ItemsControl.ItemTemplate>
 						<DataTemplate DataType="vm:NotesContentViewModel">
 							<Button MaxHeight="60"
-									Command="{Binding #Root.((vm:MainWindowViewModel)DataContext).RemoveItemCommand}"
+									Command="{Binding #Root.((vm:MainWindowViewModel)DataContext).OpenStickyNote}"
 									CommandParameter="{Binding .}">
 								<TextBlock Text="{Binding Content}"></TextBlock>
 							</Button>

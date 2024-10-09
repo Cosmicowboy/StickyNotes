@@ -15,15 +15,19 @@ public partial  class MainWindowViewModel : ViewModelBase
     {
         if (Design.IsDesignMode)
         {
-            new NotesContentViewModel() { Content = "Testing 1", LastModified = DateTime.Now };
-            new NotesContentViewModel() { Content = "Testing 2", LastModified = DateTime.Now };
-            new NotesContentViewModel() { Content = "Testing 3", LastModified = DateTime.MinValue};
+            NotesContent = new ObservableCollection<NotesContentViewModel>(new[]
+            {
+                new NotesContentViewModel() { Content = "Testing 1", LastModified = DateTime.Now },
+                new NotesContentViewModel() { Content = "Testing 2", LastModified = DateTime.Now },
+                new NotesContentViewModel() { Content = "Testing 3", LastModified = DateTime.MinValue }
+            });
+            
         }
 
     }
 
     [RelayCommand]
-    private void OpenSticky(NotesContentViewModel item)
+    private void OpenStickyNote(NotesContentViewModel item)
     {
         //Open sticky window and pass contents/ date modified into it.
     }
