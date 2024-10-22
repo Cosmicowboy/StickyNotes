@@ -18,7 +18,7 @@
 	</Window.Resources>
 
 	<Border BorderBrush="Black" BorderThickness="1">
-		<Grid>
+		<Grid x:Name="Root">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="AUTO"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
@@ -35,12 +35,14 @@
 						<TextBlock Margin="0,-3">X</TextBlock>
 					</Button>
 				</StackPanel>
-				<TextBlock FontStyle="Oblique" FontWeight="Bold" VerticalAlignment="Bottom" Margin="0,40,0,0">Sticky Notes</TextBlock>
-				<TextBox Watermark="Search...">
-					<TextBox.InnerRightContent>
-						<PathIcon Data="{StaticResource search_regular }"></PathIcon>
-					</TextBox.InnerRightContent>
-				</TextBox>
+				<StackPanel>
+					<TextBlock FontStyle="Oblique" FontWeight="Bold" VerticalAlignment="Bottom" Margin="0,40,0,0">Sticky Notes</TextBlock>
+					<TextBox Watermark="Search..." VerticalAlignment="Bottom" CornerRadius="0">
+						<TextBox.InnerRightContent>
+							<PathIcon Data="{StaticResource search_regular }"></PathIcon>
+						</TextBox.InnerRightContent>
+					</TextBox>
+				</StackPanel>
 			</Panel>
 			<ScrollViewer>
 				<ItemsControl ItemsSource="{Binding NotesContent}">
