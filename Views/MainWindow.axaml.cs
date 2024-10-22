@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 
 namespace StickyNotes.Views
 {
@@ -7,6 +8,15 @@ namespace StickyNotes.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+
+        private void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        {
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            {
+                BeginMoveDrag(e);
+            }
         }
     }
 }
