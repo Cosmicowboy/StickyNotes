@@ -27,16 +27,18 @@ public partial  class MainWindowViewModel : ViewModelBase
         }
 
     }
-
+    //Open new window (sticky vm)
+    //pass in content through constrcutor 
     [RelayCommand]
-    private void OpenStickyNote(NotesContentViewModel item)
+    private void OpenStickyNote(NotesContentViewModel item) //pass in interface instead for testing (IStickyContent)
     {
-        //TODO: Open sticky window and pass contents/ date modified into it.
+        
     }
 
     private void WindowClose(Window notesList)
     {
-        if (true)
+        if (true) //if all stickies are closed then main window closes
+                    // otherwise it just hides it
         {
             notesList.Hide();
         }
