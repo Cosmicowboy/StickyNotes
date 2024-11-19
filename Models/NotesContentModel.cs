@@ -4,7 +4,7 @@ using System;
 
 namespace StickyNotes.Models
 {
-    public class NotesContent : IStickyContent
+    public class NotesContentModel : IStickyContent
     {
         public string? Content { get; set; }
 

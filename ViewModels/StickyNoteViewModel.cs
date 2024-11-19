@@ -4,7 +4,7 @@ using System;
 
 namespace StickyNotes.ViewModels;
 
-public partial class NotesContentViewModel : ViewModelBase
+public partial class StickyNoteViewModel : ViewModelBase
 {
     /// <summary>
     /// Property to display date of last edit
@@ -22,7 +22,7 @@ public partial class NotesContentViewModel : ViewModelBase
     /// Constructor for no arguments
     /// <para>If no argument then date is set to DateTime.Today</para>
     /// </summary>
-    public NotesContentViewModel()
+    public StickyNoteViewModel()
     {
         _lastModified = DateTime.Today;
     }
@@ -32,16 +32,16 @@ public partial class NotesContentViewModel : ViewModelBase
     /// <para> Stickies retrieved from database or that are collapsed</para>
     /// </summary>
     /// <param name="item"></param>
-    public NotesContentViewModel(NotesContent item)
+    public StickyNoteViewModel(NotesContentModel item)
     {
         //Init properties with given values
         Content = item.Content;
         LastModified = item.LastModified;
     }
 
-    public NotesContent GetStickyNote()
+    public NotesContentModel GetStickyNote()
     {
-        return new NotesContent()
+        return new NotesContentModel()
         {
             Content = this.Content,
             LastModified = this.LastModified
