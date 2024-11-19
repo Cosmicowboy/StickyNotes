@@ -15,30 +15,28 @@ public partial  class MainWindowViewModel : ViewModelBase
     {
         this.WindowCloseCommand = new RelayCommand<Window>(this.WindowClose);
 
-        if (Design.IsDesignMode)
-        {
-            NotesContent = new ObservableCollection<NotesContentViewModel>(new[]
-            {
-                new NotesContentViewModel() { Content = "Testing 1", LastModified = DateTime.Now },
-                new NotesContentViewModel() { Content = "Testing 2", LastModified = DateTime.Now },
-                new NotesContentViewModel() { Content = "Testing 3", LastModified = DateTime.MinValue }
-            });
-            
-        }
-
     }
-    //Open new window (sticky vm)
-    //pass in content through constrcutor 
+    
+    //pass in content through constructor 
     [RelayCommand]
     private void OpenStickyNote(NotesContentViewModel item) //pass in interface instead for testing (IStickyContent)
     {
-        
+        //opens new window, main window is owner 
+        //pass Notes Content into VM 
+    }
+
+    public void NewStickyNote()
+    {
+        var NewNote = new NotesContentViewModel();
+        NotesContent.Add(NewNote);
+        OpenStickyNote(NewNote);
     }
 
     private void WindowClose(Window notesList)
     {
-        if (true) //if all stickies are closed then main window closes
-                    // otherwise it just hides it
+        //if all stickies are closed then main window closes
+        // otherwise it just hides it
+        if (true) 
         {
             notesList.Hide();
         }
