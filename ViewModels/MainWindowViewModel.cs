@@ -1,35 +1,50 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.Input;
 using StickyNotes.Models;
+using StickyNotes.Views;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace StickyNotes.ViewModels;
 
 public partial  class MainWindowViewModel : ViewModelBase
 {
     public RelayCommand<Window> WindowCloseCommand { get; private set; }
-    public ObservableCollection<StickyNoteViewModel> StickyNotesList { get; } = [];
+    public ObservableCollection<NotesContentModel> StickyNotesList { get; } = [];
 
     public MainWindowViewModel()
     {
-        this.WindowCloseCommand = new RelayCommand<Window>(this.WindowClose);
-        //check database for stored entries
+        WindowCloseCommand = new RelayCommand<Window>(WindowClose);
+        //TODO: check database for stored entries (daa access layer?)
     }
     
     //pass in content through constructor 
     [RelayCommand]
-    private void OpenStickyNote(StickyNoteViewModel item) //pass in interface instead for testing (IStickyContent)
+    private void OpenStickyNote(StickyNoteViewModel item) 
     {
-        //opens new window, main window is owner 
-        //pass Notes Content into VM 
+        //new stickyNoteview 
+            //pass in the 
     }
 
     public void NewStickyNote()
     {
+        var NewNoteModel = new NotesContentModel();
+
+        StickyNotesList.Add(NewNoteModel);
+        //TODO: Pass the model ref into the viewmodel? 
+
         var NewNote = new StickyNoteViewModel();
-        StickyNotesList.Add(NewNote);
-        OpenStickyNote(NewNote);
+        var NewNoteWindow = new StickyNoteView
+        {
+            DataContext = NewNote,
+            ShowInTaskbar = true
+        };
+
+        Window? owner = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime ? desktopLifetime.MainWindow : null;
+        NewNoteWindow.Show(owner);
     }
 
     private void WindowClose(Window notesList)
@@ -43,8 +58,6 @@ public partial  class MainWindowViewModel : ViewModelBase
         else
         {
             notesList.Close();
-        }
-
-        
+        }        
     }
 }

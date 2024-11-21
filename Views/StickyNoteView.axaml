@@ -2,11 +2,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		xmlns:local="clr-namespace:StickyNotes.Views;assembly=StickyNotes"
-		xmlns:vm="clr-namespace:StickyNotes.ViewModels"
-        x:Class="StickyNotes.StickyNoteView"
-		x:DataType="vm:StickyNotesViewModel"
-        Title="StickyNoteView">
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="450"
+		xmlns:local="clr-namespace:StickyNote.Views;assembly=StickyNotes"
+		xmlns:vm="using:StickyNotes.ViewModels"
+        x:Class="StickyNotes.Views.StickyNoteView"
+		x:DataType="vm:StickyNoteViewModel"
+        Title="StickyNoteView"
+		Width="450" Height="450">
 
+
+	<TextBlock>test</TextBlock>
+	
 </Window>
