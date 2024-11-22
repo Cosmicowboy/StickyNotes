@@ -21,22 +21,27 @@ public partial  class MainWindowViewModel : ViewModelBase
         //TODO: check database for stored entries (daa access layer?)
     }
     
-    //pass in content through constructor 
-    [RelayCommand]
-    private void OpenStickyNote(StickyNoteViewModel item) 
+    //OpenSticky and New sticky should be combined 
+        //need to figure out how to pass in either a blank model or one from the observ list
+    private void OpenStickyNote(NotesContentModel item) 
     {
-        //new stickyNoteview 
-            //pass in the 
+        var SavedNote = new StickyNoteViewModel(item);
+        var NewNoteWindow = new StickyNoteView
+        {
+            DataContext = SavedNote,
+            ShowInTaskbar = true
+        };
+
+        Window? owner = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime ? desktopLifetime.MainWindow : null;
+        NewNoteWindow.Show(owner);
     }
 
     public void NewStickyNote()
     {
         var NewNoteModel = new NotesContentModel();
-
         StickyNotesList.Add(NewNoteModel);
-        //TODO: Pass the model ref into the viewmodel? 
 
-        var NewNote = new StickyNoteViewModel();
+        var NewNote = new StickyNoteViewModel(NewNoteModel);
         var NewNoteWindow = new StickyNoteView
         {
             DataContext = NewNote,
@@ -60,4 +65,8 @@ public partial  class MainWindowViewModel : ViewModelBase
             notesList.Close();
         }        
     }
+
+    //TODO: Handle light to dark shift
+        //switch main window color to dark/light theme 
+        //do through list of open stickies and change to dark/light
 }

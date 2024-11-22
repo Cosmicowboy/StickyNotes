@@ -17,15 +17,6 @@ public partial class StickyNoteViewModel : ViewModelBase
     /// </summary>
     [ObservableProperty]
     public string? _content;
-
-    /// <summary>
-    /// Constructor for no arguments
-    /// <para>If no argument then date is set to DateTime.Today</para>
-    /// </summary>
-    public StickyNoteViewModel()
-    {
-        _lastModified = DateTime.Today;
-    }
     
     /// <summary>
     /// Constructor for passing in sticky notes that have information
