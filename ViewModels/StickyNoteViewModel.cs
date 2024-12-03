@@ -1,6 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using StickyNotes.Models;
+using StickyNotes.Views;
 using System;
+using Avalonia;
 
 namespace StickyNotes.ViewModels;
 
@@ -38,5 +42,21 @@ public partial class StickyNoteViewModel : ViewModelBase
             LastModified = this.LastModified
         };
     }
+    public void NewStickyNote()
+    {
+        var NewNoteModel = new NotesContentModel();
 
+        //need ref to mainwindow
+        StickyNotesList.Add(NewNoteModel);
+
+        var NewNote = new StickyNoteViewModel(NewNoteModel);
+        var NewNoteWindow = new StickyNoteView
+        {
+            DataContext = NewNote,
+            ShowInTaskbar = true
+        };
+
+        Window? owner = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime ? desktopLifetime.MainWindow : null;
+        NewNoteWindow.Show(owner);
+    }
 }

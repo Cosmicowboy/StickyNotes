@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 
 namespace StickyNotes.Views;
@@ -15,5 +16,13 @@ public partial class StickyNoteView : Window
     {
         AvaloniaXamlLoader.Load(this);
 
+    }
+
+    private void OnPointerPressed(object sender, PointerPressedEventArgs e)
+    {
+        if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+        {
+            BeginMoveDrag(e);
+        }
     }
 }

@@ -8,9 +8,28 @@
         x:Class="StickyNotes.Views.StickyNoteView"
 		x:DataType="vm:StickyNoteViewModel"
         Title="StickyNoteView"
-		Width="450" Height="450">
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaTitleBarHeightHint="-1"
+		ExtendClientAreaChromeHints="NoChrome"
+		Width="200" Height="200">
 
 
-	<TextBlock>test</TextBlock>
+	<!--Splitview but from the top-->
+	<!--grid, stackpanel at top, textbox is rest-->
+	<!--Stack panale height bound to observable prop triggered by focus-->
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="{Binding }"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<StackPanel Orientation="Horizontal">
+			<DockPanel HorizontalAlignment="Stretch">
+				<Button DockPanel.Dock="Left" Height="30" CornerRadius="0" Background="#212121" FontSize="30" Foreground="DarkGray" BorderBrush="#212121" Command="{Binding NewStickyNote}">
+					<TextBlock Margin="0,-10,0,0">+</TextBlock>
+				</Button>
+			</DockPanel>
+		</StackPanel>
+	</Grid>
 	
 </Window>
+
