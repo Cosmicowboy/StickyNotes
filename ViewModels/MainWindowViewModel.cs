@@ -25,20 +25,26 @@ public partial  class MainWindowViewModel : ViewModelBase
         //need to figure out how to pass in either a blank model or one from the observ list
     private void OpenStickyNote(NotesContentModel item) 
     {
-        var SavedNote = new StickyNoteViewModel(item);
-        var NewNoteWindow = new StickyNoteView
-        {
-            DataContext = SavedNote,
-            ShowInTaskbar = true
-        };
 
-        Window? owner = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime ? desktopLifetime.MainWindow : null;
-        NewNoteWindow.Show(owner);
+        if(!item.InEdit)
+        {
+            item.InEdit = true;
+            var SavedNote = new StickyNoteViewModel(item);
+            var NewNoteWindow = new StickyNoteView
+            {
+                DataContext = SavedNote,
+                ShowInTaskbar = true
+            };
+
+            
+            NewNoteWindow.Show();
+        }
     }
 
     public void NewStickyNote()
     {
         var NewNoteModel = new NotesContentModel();
+        NewNoteModel.InEdit = true;
         StickyNotesList.Add(NewNoteModel);
 
         var NewNote = new StickyNoteViewModel(NewNoteModel);
@@ -48,15 +54,22 @@ public partial  class MainWindowViewModel : ViewModelBase
             ShowInTaskbar = true
         };
 
-        Window? owner = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime ? desktopLifetime.MainWindow : null;
-        NewNoteWindow.Show(owner);
+        
+        NewNoteWindow.Show();
     }
 
     private void WindowClose(Window notesList)
     {
-        //TODO: Check if all child window (stickies) are closed
-                //If not hide otherwise close the app.
-        if (true) 
+        bool openEdits = false;
+        foreach (var item in  StickyNotesList)
+        {
+            if (item.InEdit)
+            {
+                openEdits = true;
+                break;
+            }
+        }
+        if (openEdits)
         {
             notesList.Hide();
         }

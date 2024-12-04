@@ -4,7 +4,7 @@ using System;
 
 namespace StickyNotes.Models
 {
-    public class NotesContentModel : IStickyContent
+    public class NotesContentModel
     {
         public NotesContentModel() 
         {
@@ -13,6 +13,8 @@ namespace StickyNotes.Models
         public string? Content { get; set; }
 
         public DateTime LastModified { get; set; }
+
+        public bool InEdit { get; set; }
 
     }
 }

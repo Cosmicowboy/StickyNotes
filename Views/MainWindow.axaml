@@ -66,20 +66,13 @@
 					</TextBox>
 					<TextBlock Background="#212121" Height="1"></TextBlock>
 				</StackPanel>
-			<ScrollViewer Grid.Row="2" Background="#212121">
-				<!--Need the list to show snippets of what the notes contain-->
-				<ItemsControl ItemsSource="{Binding StickyNotesList}">
-					<ItemsControl.ItemTemplate>
-						<DataTemplate DataType="vm:StickyNoteViewModel">
-							<!--Why arent these clickable? is something blocking them?-->
-							<Button MaxHeight="60"
-									Command="{Binding #Root.((vm:MainWindowViewModel)DataContext).OpenStickyNote}">
-								<TextBlock Text="{Binding Content}"></TextBlock>
-							</Button>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-			</ScrollViewer>
+			<ListBox Grid.Row="2" Background="#212121" ItemsSource="{Binding StickyNotesList, Mode=TwoWay}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding}" FontSize="14" FontWeight="Bold" FontFamily=""/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
 		</Grid>
 	</Border>
    

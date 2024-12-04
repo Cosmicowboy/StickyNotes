@@ -5,6 +5,7 @@ using StickyNotes.Models;
 using StickyNotes.Views;
 using System;
 using Avalonia;
+using CommunityToolkit.Mvvm.Input;
 
 namespace StickyNotes.ViewModels;
 
@@ -27,11 +28,15 @@ public partial class StickyNoteViewModel : ViewModelBase
     /// <para> Stickies retrieved from database or that are collapsed</para>
     /// </summary>
     /// <param name="item"></param>
+    
+    public RelayCommand<Window> NoteCloseCommand {  get; private set; }
     public StickyNoteViewModel(NotesContentModel item)
     {
         //Init properties with given values
         Content = item.Content;
         LastModified = item.LastModified;
+
+        NoteCloseCommand = new RelayCommand<Window>(WindowClose);
     }
 
     public NotesContentModel GetStickyNote()
@@ -47,7 +52,7 @@ public partial class StickyNoteViewModel : ViewModelBase
         var NewNoteModel = new NotesContentModel();
 
         //need ref to mainwindow
-        StickyNotesList.Add(NewNoteModel);
+        //StickyNotesList.Add(NewNoteModel);
 
         var NewNote = new StickyNoteViewModel(NewNoteModel);
         var NewNoteWindow = new StickyNoteView
@@ -58,5 +63,12 @@ public partial class StickyNoteViewModel : ViewModelBase
 
         Window? owner = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime ? desktopLifetime.MainWindow : null;
         NewNoteWindow.Show(owner);
+    }
+    //TODO: 
+    //throws ref error
+    //noteWindow is null?
+    private void WindowClose(Window noteWindow)
+    {
+        noteWindow.Close(this);
     }
 }
