@@ -43,19 +43,19 @@ public partial  class MainWindowViewModel : ViewModelBase
 
     public void NewStickyNote()
     {
-        var NewNoteModel = new NotesContentModel();
-        NewNoteModel.InEdit = true;
-        StickyNotesList.Add(NewNoteModel);
+        var newNoteModel = new NotesContentModel();
+        newNoteModel.InEdit = true;
+        StickyNotesList.Add(newNoteModel);
 
-        var NewNote = new StickyNoteViewModel(NewNoteModel);
-        var NewNoteWindow = new StickyNoteView
+        var newNote = new StickyNoteViewModel(newNoteModel);
+        var newNoteWindow = new StickyNoteView
         {
-            DataContext = NewNote,
+            DataContext = newNote,
             ShowInTaskbar = true
         };
 
-        
-        NewNoteWindow.Show();
+        newNote.OnRequestClose += (s, e) => newNoteWindow.Close();
+        newNoteWindow.Show();
     }
 
     private void WindowClose(Window notesList)
