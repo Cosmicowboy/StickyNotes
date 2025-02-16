@@ -7,27 +7,18 @@
 		xmlns:vm="using:StickyNotes.ViewModels"
         x:Class="StickyNotes.Views.StickyNoteView"
 		x:DataType="vm:StickyNoteViewModel"
+		x:Name="StickyNoteWindow"
         Title="StickyNoteView"
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaTitleBarHeightHint="-1"
 		ExtendClientAreaChromeHints="NoChrome"
 		Width="200" Height="200"
 		CornerRadius="50">
-<!--Dark color: #212121 Yellow color #E1B524-->
-	<!--Stack panale height bound to observable prop triggered by focus of textbox-->
+	<!--Dark color: #212121 Yellow color #E1B524-->
+	<!--Stack panel height bound to observable prop triggered by focus of textbox-->
 
-	<Window.Resources>
-		<Style x:Key="NoFocusTextBox" TargetType="TextBox">
-			<Setter Property="Background" Value="White"/>
 
-			<Style.Triggers>
-				<DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource Self}}" Value="True">
-					<Setter Property="Background" Value="#212121"/>
-				</DataTrigger>
-			</Style.Triggers>
-		</Style>
-	</Window.Resources>
-	
+	<!--Sticky textbox focus color needs to be removed-->
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -35,23 +26,22 @@
 		</Grid.RowDefinitions>
 
 		<DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="0" Background="#E1B524">
-			<Button DockPanel.Dock="Left" Height="30" CornerRadius="0" FontSize="30" Foreground="DarkGray" Background="Transparent" Command="{Binding NewStickyNote}">
+			<Button DockPanel.Dock="Left" Height="30" CornerRadius="0" FontSize="30" Foreground="Gray" Background="Transparent" Command="{Binding NewStickyNote}">
 				<TextBlock Margin="0,-10,0,0">+</TextBlock>
 			</Button>
-			<Button DockPanel.Dock="Right" Height="30" CornerRadius="0" FontSize="20" Foreground="Gray" Background="Transparent" Command="{Binding WindowClose, Mode=OneWay}">
+			<Button DockPanel.Dock="Right" Height="30" CornerRadius="0" FontSize="20" Foreground="Gray" Background="Transparent" Command="{Binding NoteCloseCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=StickyNoteWindow}">
 				<TextBlock Margin="0,-3">X</TextBlock>
 			</Button>
 			<Button  Height="30" DockPanel.Dock="Right" CornerRadius="0" Background="Transparent" Foreground="Gray">
 				<TextBlock FontSize="20" Margin="0,-5,-2,0">...</TextBlock>
 				<Button.Flyout>
-					<MenuFlyout>
-						<MenuItem CornerRadius="0" Command=""></MenuItem>
-					</MenuFlyout>
+					<!--Show main notes list-->
+					<!--Switch between light and dark-->
 				</Button.Flyout>
 			</Button>
 			<Panel Background="#E1B524" IsHitTestVisible="True" PointerPressed="OnPointerPressed" DockPanel.Dock="Top"></Panel>
 		</DockPanel>
-		<TextBox Grid.Row="1" CornerRadius="0" BorderThickness="0" Background="#212121" ></TextBox>
+		<TextBox Grid.Row="1" CornerRadius="0" BorderThickness="0" Text="{Binding NotesText}" Focusable="False" Background="#212121" Foreground="white"></TextBox>
 	</Grid>
 </Window>
 

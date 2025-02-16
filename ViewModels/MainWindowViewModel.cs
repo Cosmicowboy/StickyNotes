@@ -2,74 +2,64 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.Input;
+using StickyNotes.Builder;
+using StickyNotes.Interfaces;
 using StickyNotes.Models;
 using StickyNotes.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace StickyNotes.ViewModels;
 
-public partial  class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase
 {
     public RelayCommand<Window> WindowCloseCommand { get; private set; }
-    public ObservableCollection<NotesContentModel> StickyNotesList { get; } = [];
+    //change to StickyNotesView?
+    public static ObservableCollection<IStickyContent> StickyNotesList { get; set; } = [];
+
+    public static List<StickyNoteView> OpenNotes = [];
 
     public MainWindowViewModel()
     {
         WindowCloseCommand = new RelayCommand<Window>(WindowClose);
-        //TODO: check database for stored entries (daa access layer?)
+        //TODO: check database for stored entries
+        // make objects form stored entries 
+            //add to StickyNotesList
     }
     
-    //OpenSticky and New sticky should be combined 
-        //need to figure out how to pass in either a blank model or one from the observ list
-    private void OpenStickyNote(NotesContentModel item) 
-    {
 
+    public void OpenStickyNote(NotesContentModel item) 
+    {
         if(!item.InEdit)
         {
-            item.InEdit = true;
-            var SavedNote = new StickyNoteViewModel(item);
-            var NewNoteWindow = new StickyNoteView
-            {
-                DataContext = SavedNote,
-                ShowInTaskbar = true
-            };
+            var stickyBuilder = new StickyBuilder();
 
-            
-            NewNoteWindow.Show();
+            stickyBuilder.WrapStickyContent();
+            stickyBuilder.SetDataContext();
+
+            OpenNotes.Add(stickyBuilder.BuildStickyNote());
+        }
+        else
+        {
+            //TODO find item view (window) and bring to front
         }
     }
 
     public void NewStickyNote()
     {
-        var newNoteModel = new NotesContentModel();
-        newNoteModel.InEdit = true;
-        StickyNotesList.Add(newNoteModel);
+        var stickyBuilder = new StickyBuilder();
 
-        var newNote = new StickyNoteViewModel(newNoteModel);
-        var newNoteWindow = new StickyNoteView
-        {
-            DataContext = newNote,
-            ShowInTaskbar = true
-        };
+        stickyBuilder.WrapStickyContent();
+        stickyBuilder.SetDataContext();
 
-        newNote.OnRequestClose += (s, e) => newNoteWindow.Close();
-        newNoteWindow.Show();
+        OpenNotes.Add(stickyBuilder.BuildStickyNote());
     }
-
+    //--------------------------------------------------------------------------------------------------
     private void WindowClose(Window notesList)
     {
-        bool openEdits = false;
-        foreach (var item in  StickyNotesList)
-        {
-            if (item.InEdit)
-            {
-                openEdits = true;
-                break;
-            }
-        }
-        if (openEdits)
+        if (OpenNotes.Count > 0)
         {
             notesList.Hide();
         }

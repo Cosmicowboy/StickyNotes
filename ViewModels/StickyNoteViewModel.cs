@@ -6,6 +6,9 @@ using StickyNotes.Views;
 using System;
 using Avalonia;
 using CommunityToolkit.Mvvm.Input;
+using ReactiveUI;
+using StickyNotes.Interfaces;
+using StickyNotes.Builder;
 
 namespace StickyNotes.ViewModels;
 
@@ -17,41 +20,69 @@ public partial class StickyNoteViewModel : ViewModelBase
     /// </summary>
     /// <param name="item"></param>
 
-    public event EventHandler OnRequestClose;
+    private string? notesText;
+    public string NotesText
+    {
+        get
+        {
+
+            if(StickyNote.Content  == null)
+            {
+                return "";
+            }
+            return StickyNote.Content;
+        }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref notesText, value);
+            StickyNote.Content = value;
+        }
+    }
+
     public RelayCommand<Window> NoteCloseCommand {  get; private set; }
 
-    private NotesContentModel StickyNote;
+    private IStickyContent StickyNote;
 
-    public StickyNoteViewModel(NotesContentModel item)
+    public StickyNoteViewModel(IStickyContent item)
     {
         StickyNote = item;
+        NoteCloseCommand = new RelayCommand<Window>(NoteClose);
     }                                 
 
     public void NewStickyNote()
     {
-        var NewNoteModel = new NotesContentModel();
+        var stickyBuilder = new StickyBuilder();
 
-        //need ref to mainwindow
-        //StickyNotesList.Add(NewNoteModel);
+        stickyBuilder.WrapStickyContent();
+        stickyBuilder.SetDataContext();
 
-        var NewNote = new StickyNoteViewModel(NewNoteModel);
-        var newNoteWindow = new StickyNoteView
-        {
-            DataContext = NewNote,
-            ShowInTaskbar = true
-        };
-
-        Window? owner = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime ? desktopLifetime.MainWindow : null;
-        newNoteWindow.Show(owner);
+        MainWindowViewModel.OpenNotes.Add(stickyBuilder.BuildStickyNote());
 
     }
-    //TODO: 
-    //throws ref error
-    //noteWindow is null?
-    // main window subscribe to events instead of this closing the window the main window closes it.
-    public void WindowClose()
+
+    public void NoteClose(Window stickyNoteWindow)
     {
-        
-        OnRequestClose(this, new EventArgs());
+        //kick this out to a demo class
+        //handle closing and validating notes 
+        if (string.IsNullOrWhiteSpace(StickyNote.Content))
+        {
+            MainWindowViewModel.StickyNotesList.Remove(StickyNote);
+        }
+        StickyNote.InEdit = false;
+
+        //TODO: save note location for opening next time
+        stickyNoteWindow.Close();
+
+        MainWindowViewModel.OpenNotes.Remove((StickyNoteView)stickyNoteWindow);
+
+        //and if main window is hidden
+        if(MainWindowViewModel.OpenNotes.Count <= 0)
+        {
+            Window? mainWindow = Application.Current?.ApplicationLifetime is
+                                   IClassicDesktopStyleApplicationLifetime desktopLifetime ? desktopLifetime.MainWindow : null;
+            
+            mainWindow.Close();
+        }
     }
 }
+ 

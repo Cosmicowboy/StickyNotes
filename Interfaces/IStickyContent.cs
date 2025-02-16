@@ -4,10 +4,12 @@ using System;
 
 namespace StickyNotes.Interfaces
 {
-    internal interface IStickyContent
+    public interface IStickyContent
     {
         public string? Content { get; set; }
 
         public DateTime LastModified { get; set; }
+
+        public bool InEdit { get ; set; }
     }
 }

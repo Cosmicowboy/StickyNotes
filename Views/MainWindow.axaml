@@ -66,7 +66,7 @@
 				</TextBox>
 				<Panel Background="#212121" Height="5"></Panel>
 			</StackPanel>
-			<!--how to bind the content of the note to the listbox-->
+			<!--how to bind the content of the note to the listbox (show contents or notes to user)-->
 			<ScrollViewer Grid.Row="2" Background="#212121">
 				<ItemsControl ItemsSource="{Binding StickyNotesList, Mode=TwoWay}" >
 					<ItemsControl.ItemTemplate>
@@ -80,3 +80,4 @@
 	</Border>
 
 </Window>
+ 
