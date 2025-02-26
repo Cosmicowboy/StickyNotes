@@ -75,7 +75,8 @@ public partial class StickyNoteViewModel : ViewModelBase
 
         MainWindowViewModel.OpenNotes.Remove((StickyNoteView)stickyNoteWindow);
 
-        //and if main window is hidden
+        //currently closes app if main window is still open 
+        //TODO: update to see if its hidden
         if(MainWindowViewModel.OpenNotes.Count <= 0)
         {
             Window? mainWindow = Application.Current?.ApplicationLifetime is

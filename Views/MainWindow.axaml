@@ -66,12 +66,11 @@
 				</TextBox>
 				<Panel Background="#212121" Height="5"></Panel>
 			</StackPanel>
-			<!--how to bind the content of the note to the listbox (show contents or notes to user)-->
-			<ScrollViewer Grid.Row="2" Background="#212121">
-				<ItemsControl ItemsSource="{Binding StickyNotesList, Mode=TwoWay}" >
+			<ScrollViewer Grid.Row="2" Background="#212121" HorizontalAlignment="Stretch" >
+				<ItemsControl ItemsSource="{Binding StickyNotesList}" >
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<Button Content="{Binding }" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="14" FontWeight="Bold" FontFamily="" MaxHeight="100"/>
+							<Button Content="{Binding Content}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="14" FontWeight="Bold"  MaxHeight="100" Command="{Binding #StickyNotesList.((vm:StickyNoteViewModel)DataContext).OpenStickyNote}"/>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
@@ -81,3 +80,10 @@
 
 </Window>
  
+<!--<ItemsRepeater x:Name="items" ItemsSource={Binding ACollectionOnTheViewModel }>
+		<ItemsRepeater.ItemTemplate>
+			<DataTemplate>
+				<Button Command="{Binding #items.((vm:SomeViewModel)DataContext).SomeCommand}" /> 
+			</DataTemplate>
+		</ItemsRepeater.ItemTemplate>
+ </ItemsRepeater> -->

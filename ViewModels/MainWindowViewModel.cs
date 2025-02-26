@@ -30,7 +30,7 @@ public class MainWindowViewModel : ViewModelBase
     }
     
 
-    public void OpenStickyNote(NotesContentModel item) 
+    public void OpenStickyNote(IStickyContent item) 
     {
         if(!item.InEdit)
         {
@@ -56,7 +56,8 @@ public class MainWindowViewModel : ViewModelBase
 
         OpenNotes.Add(stickyBuilder.BuildStickyNote());
     }
-    //--------------------------------------------------------------------------------------------------
+
+
     private void WindowClose(Window notesList)
     {
         if (OpenNotes.Count > 0)

@@ -47,6 +47,7 @@ namespace StickyNotes.Builder
         /// </summary>
         public StickyNoteView BuildStickyNote()
         {
+            //TODO: check if window was built right 
             MainWindowViewModel.StickyNotesList.Add(StickyContent);
 
             StickyView.Show();
